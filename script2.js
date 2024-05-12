@@ -9,6 +9,9 @@ const elementOpposites = {
     Air: 'Earth'
 };
 
+// Store created dropdowns
+const createdDropdowns = {};
+
 const classes = {
 	Tactician: { path: 'Steel', role: 'Guardian', skillTrees: ['Enervation', 'Resilience', 'Command', 'Universal']},
 	Battlemage: { path: 'Magic', role: 'Guardian', skillTrees: ['Brilliant Armor', 'Teamwork', 'Control', 'Universal'] },
@@ -56,7 +59,7 @@ const skillTreeSkills = {
 	"Elementalism":['Elemental Connection', 'Elemental Connection Upgrade', 'Elemental Focus', 'Elemental Focus Upgrade', 'Channel Element', 'Channel Element Upgrade'],
 	"Enervation":['Taunting Strike', 'Taunting Strike Upgrade', 'Nerve Strike', 'Nerve Strike Upgrade', 'Sudden Strike (Final)', 'Sudden Strike (Final) Upgrade'],
 	"Evocation":['Torment Pulse', 'Torment Pulse Upgrade', 'Torment Lash', 'Torment Lash Upgrade', 'Torment Infusion', 'Torment Infusion Upgrade'],
-	"Fateweaving":['Tangle Fate', 'Tangle Fate Upgrade', 'Tug Fate’s Strings', 'Tug Fate’s Strings Upgrade', 'Warnings in the Web', 'Warnings in the Web Upgrade'],
+	"Fateweaving":['Tangle Fate', 'Tangle Fate Upgrade', 'Tug Fates Strings', 'Tug Fates Strings Upgrade', 'Warnings in the Web', 'Warnings in the Web Upgrade'],
 	"Field Medicine":['Bandaging', 'Bandaging Upgrade', 'Stimulant', 'Stimulant Upgrade', 'Emergency Treatment', 'Emergency Treatment Upgrade'],
 	"Healing":['Soothing Touch', 'Soothing Touch Upgrade', 'Healing Surge', 'Healing Surge Upgrade', 'Word of Healing', 'Word of Healing Upgrade'],
 	"Hexing":['Affliction', 'Affliction Upgrade', 'Pelting Stones', 'Pelting Stones Upgrade', 'Root', 'Root Upgrade'],
@@ -66,12 +69,12 @@ const skillTreeSkills = {
 	"Resilience": ['Combat Mastery', 'Combat Mastery Upgrade', 'Great Strength', 'Great Strength Upgrade', 'Resurgence', 'Resurgence Upgrade'],
 	"Righteousness":['Spell Blade', 'Spell Blade Upgrade', 'Holy Light', 'Holy Light Upgrade', 'Blade of the Righteous (Final)', 'Blade of the Righteous (Final) Upgrade'],
 	"Sanctity":['Invocation of Sanctuary', 'Invocation of Sanctuary Upgrade', 'Sacred Duty', 'Sacred Duty Upgrade', 'Strength of Faith', 'Strength of Faith Upgrade'],
-	"Shapeshifting":['Body of the Beast', 'Body of the Beast Upgrade', 'Hunter’s Aura', 'Hunter’s Aura Upgrade', 'Apex Predator', 'Apex Predator Upgrade'],
+	"Shapeshifting":['Body of the Beast', 'Body of the Beast Upgrade', 'Hunters Aura', 'Hunters Aura Upgrade', 'Apex Predator', 'Apex Predator Upgrade'],
 	"Shielding":['Barrier', 'Barrier Upgrade', 'Cleanse', 'Cleanse Upgrade', 'Mirror', 'Mirror Upgrade'],
 	"Soultending":['Vital Humors', 'Vital Humors Upgrade', 'Infuse Life', 'Infuse Life Upgrade', 'Dark Night of the Soul (Final)', 'Dark Night of the Soul (Final) Upgrade'],
-	"Spirit Lore":['Spirit Strike', 'Spirit Strike Upgrade', 'Spirit’s Blessing', 'Spirit’s Blessing Upgrade', 'Spirit Dispatch', 'Spirit Dispatch Upgrade'],
-	"Teamwork":['Empower', 'Empower Upgrade', 'I Recommend…', 'I Recommend… Upgrade', 'Push Your Limits', 'Push Your Limits Upgrade'],
-	"Terrain Mastery":['Salamander’s Fire', 'Salamander’s Fire Upgrade (Final)', 'Talented Scout', 'Talented Scout Upgrade', 'Balanced Training', 'Balanced Training Upgrade'],
+	"Spirit Lore":['Spirit Strike', 'Spirit Strike Upgrade', 'Spirits Blessing', 'Spirits Blessing Upgrade', 'Spirit Dispatch', 'Spirit Dispatch Upgrade'],
+	"Teamwork":['Empower', 'Empower Upgrade', 'I Recommend', 'I Recommend Upgrade', 'Push Your Limits', 'Push Your Limits Upgrade'],
+	"Terrain Mastery":['Salamanders Fire', 'Salamanders Fire Upgrade (Final)', 'Talented Scout', 'Talented Scout Upgrade', 'Balanced Training', 'Balanced Training Upgrade'],
 	"Thievery":['Deft Fingers', 'Deft Fingers Upgrade', 'Fast Talk, Fast Hands', 'Fast Talk, Fast Hands Upgrade', 'Flourish', 'Flourish Upgrade'],
 	"Warcraft":['Precision', 'Precision Upgrade', 'Vicious Strikes', 'Vicious Strikes Upgrade', 'Killing Blow (Final)', 'Killing Blow (Final) Upgrade'],
 	"Weapon Mastery":['Expertise', 'Expertise Upgrade', 'Technique', 'Technique Upgrade', 'Mastery', 'Mastery Upgrade'],
@@ -167,7 +170,8 @@ function handleBackgroundSelection(event) {
         // Simulate an event object for logSkillDetailsAndPopulateOptions
         const customEvent = {
             target: {
-                value: backgroundSkillMapping[selectedBackground]
+                value: backgroundSkillMapping[selectedBackground],
+                id: backgroundId // Add the backgroundId to the customEvent
             }
         };
 
@@ -176,8 +180,20 @@ function handleBackgroundSelection(event) {
     } else {
         // Handle backgrounds that don't need special skill logic
         console.log(`No special mechanics for ${selectedBackground} background.`);
+
+        // Clear any existing dropdowns if no options are required for this background
+        const existingDropdown = createdDropdowns[backgroundId];
+        if (existingDropdown) {
+            console.log(`Removing existing dropdown with ID: ${existingDropdown.id}`);
+            existingDropdown.remove();
+            delete createdDropdowns[backgroundId];
+        } else {
+            console.log(`No existing dropdown to remove for background ID: ${backgroundId}`);
+        }
     }
 }
+
+
 
 // Add a single event listener for all elements with the 'skillSelect' class
 document.querySelectorAll('.skillSelect').forEach(selectElement => {
@@ -193,20 +209,35 @@ function logSkillDetailsAndPopulateOptions(event) {
     console.log(`Parsed skill tree: ${skillTree}`);
     console.log(`Parsed skill name: ${skillName || 'not provided'}`);
 
+    // Remove existing dropdown if selection changes
+    const existingDropdown = createdDropdowns[event.target.id];
+    if (existingDropdown) {
+        console.log(`Removing existing dropdown with ID: ${existingDropdown.id}`);
+        existingDropdown.remove();
+        delete createdDropdowns[event.target.id];
+    } else {
+        console.log('No existing dropdown to remove.');
+    }
+
     // Create or get a unique dropdown by ID
     const getOrCreateDropdown = (id) => {
         let dropdown = document.getElementById(id);
         if (!dropdown) {
+            console.log(`Creating new dropdown with ID: ${id}`);
             dropdown = document.createElement('select');
             dropdown.id = id;
-            dropdown.className = 'skillSelect'; // Assign skillSelect class
+            dropdown.className = 'skillSelect2'; // Assign skillSelect2 class
             document.getElementById('optionsContainer').appendChild(dropdown); // Assuming `optionsContainer` is the parent element
+            createdDropdowns[event.target.id] = dropdown; // Track the created dropdown
+        } else {
+            console.log(`Found existing dropdown with ID: ${id}`);
         }
         return dropdown;
     };
 
     // Populate a dropdown with options
     const populateDropdown = (dropdown, options) => {
+        console.log(`Populating dropdown with ID: ${dropdown.id} with options:`, options);
         dropdown.innerHTML = ''; // Clear existing options
         const defaultOption = document.createElement('option');
         defaultOption.value = '';
@@ -226,14 +257,17 @@ function logSkillDetailsAndPopulateOptions(event) {
 
     // Expand skill options, including skill trees
     const handleSkillOptions = (options) => {
+        console.log('Handling skill options:', options);
         const expandedOptions = [];
         options.forEach(option => {
             if (skillsData[option]) { // Check if the option is another skill tree
+                console.log(`Expanding skill tree: ${option}`);
                 expandedOptions.push(...Object.keys(skillsData[option]).map(skill => `${option}:${skill}`));
             } else {
                 expandedOptions.push(option);
             }
         });
+        console.log('Expanded options:', expandedOptions);
         return expandedOptions;
     };
 
@@ -291,7 +325,7 @@ function updateClassDetails() {
     const selectedClass = document.getElementById('classSelect').value;
     const classDetails = classes[selectedClass];
     const skillTreeElement = document.getElementById('skillTrees');
-    const excludedIds = ['thinBloodSkillSelect', 'halfBloodSkillSelect1', 'halfBloodSkillSelect2', 'lineageSkillSelect', 'secondLineageSkillSelect'];
+    const excludedIds = ['thinBloodSkillSelect', 'halfBloodSkillSelect1', 'halfBloodSkillSelect2', 'lineageSkillSelect', 'secondLineageSkillSelect', 'skillOptionSelect_Terrain Mastery_Talented Scout', 'skillOptionSelect_Thiefy_Thiefy',];
 
     // Reset skill tree display
     skillTreeElement.innerHTML = '';
@@ -669,23 +703,23 @@ function submitCharacterForm() {
     });
 
     // Handle general skill selections using the class "skillSelect"
-    document.querySelectorAll('.skillSelect').forEach(select => {
-        console.log(`Processing select ID: ${select.id}`);
+	document.querySelectorAll('.skillSelect, .skillSelect2').forEach(select => {
+		console.log(`Processing select ID: ${select.id}`);
 
-        // Exclude special lineage skill selects from general processing
-        if (!['thinBloodSkillSelect', 'halfBloodSkillSelect1', 'halfBloodSkillSelect2'].includes(select.id)) {
-            if (select && !invalidValues.includes(select.value)) {
-                console.log(`Select ID: ${select.id}, Value: ${select.value}`);
+		// Exclude special lineage skill selects from general processing
+		if (!['thinBloodSkillSelect', 'halfBloodSkillSelect1', 'halfBloodSkillSelect2'].includes(select.id)) {
+			if (select && !invalidValues.includes(select.value)) {
+				console.log(`Select ID: ${select.id}, Value: ${select.value}`);
 
-                const [skillTree, skillName] = select.value.split(/:(.+)/);
-                console.log(`Skill Tree: ${skillTree}, Skill Name: ${skillName}`);
-                data = processSkillSelection(skillTree, skillName, data, selectedElement);
-                console.log(`Updated data after processing ${skillName}:`, data);
-            } else {
-                console.log(`Select ID: ${select.id} is empty or has N/A value`);
-            }
-        }
-    });
+				const [skillTree, skillName] = select.value.split(/:(.+)/);
+				console.log(`Skill Tree: ${skillTree}, Skill Name: ${skillName}`);
+				data = processSkillSelection(skillTree, skillName, data, selectedElement);
+				console.log(`Updated data after processing ${skillName}:`, data);
+			} else {
+				console.log(`Select ID: ${select.id} is empty or has N/A value`);
+			}
+		}
+	});
 
     // Only process lineage skills if not half or thin blood
     if (!halfBloodCheckbox && !thinBloodCheckbox) {
