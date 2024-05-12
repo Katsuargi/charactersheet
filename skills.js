@@ -624,14 +624,14 @@ const skillsData = {
 				"effect": "You are skilled at manipulating the web of Fate, and have found ways to entangle yourself with important groups of people. When you buy the Rank or Social Butterfly powers, you also receive Rank 1 with a different Organization. If you are already at your Max Rank, you may instead receive one Rumors power."
 			}
 		],
-		"Tug Fate\u2019s Strings": [
+		"Tug Fates Strings": [
 			{
 				"useType": "T",
 				"effect": "Choose one, based on the Role of your target (may not be you): \u2022 A Healer Minimizes (element) or Adds 2 to their Healing powers \u2022 A Guardian gains 2 Armor Resists each Encounter \u2022 An Aggressor or Savant receives 2 Dodges each Encounter",
 				"deliveryType": "Touch"
 			}
 		],
-		"Tug Fate\u2019s Strings Upgrade": [
+		"Tug Fates Strings Upgrade": [
 			{
 				"useType": "E",
 				"effect": "You are proficient with scrying the Web of Fate, either through runes, cards, or some other method. You may write down on a question on a note and hand it to an Organizer. They will give you a vague vision to answer that question."
@@ -1214,7 +1214,7 @@ const skillsData = {
 				"effect": "Resist a Status Effect."
 			}
 		],
-		"Hunter\u2019s Aura": [
+		"Hunters Aura": [
 			{
 				"useType": "D",
 				"effect": "Gain three uses of Taunt 3 attacks.",
@@ -1225,7 +1225,7 @@ const skillsData = {
 				"effect": "You may use one or two 30\u201d claw boffers that inflict 3 Normal."
 			}
 		],
-		"Hunter\u2019s Aura Upgrade": [
+		"Hunters Aura Upgrade": [
 			{
 				"useType": "D",
 				"effect": "Gain 10 Temporary HP."
@@ -1380,14 +1380,14 @@ const skillsData = {
 				"effect": "You gain a Spell Pool of 3 (see Destruction) for Spirit Strike only."
 			}
 		],
-		"Spirit\u2019s Blessing": [
+		"Spirits Blessing": [
 			{
 				"useType": "T",
 				"effect": "Target gains 1 Dodge and 1 use of \u201cOut of Game, 10 seconds\u201d each Encounter.",
 				"deliveryType": "Touch"
 			}
 		],
-		"Spirit\u2019s Blessing Upgrade": [
+		"Spirits Blessing Upgrade": [
 			{
 				"useType": "T",
 				"effect": "Target gains 1 Phase each Encounter.",
@@ -1423,13 +1423,13 @@ const skillsData = {
 				"effect": "Your allies gain an Armor Resist each Encounter. If there are multiple instances of this power you may convert the Armor Resist into a Dodge (with 2 instances) or a Phase (with 3 instances). Before handing out this bonus, please check with other players to see which level of the bonus applies. Remember that you cannot stack the same power twice!"
 			}
 		],
-		"I Recommend\u2026": [
+		"I Recommend": [
 			{
 				"useType": "D",
 				"effect": "Choose one of: Air, Earth, Fire, or Water. Target other ally Adds 1 when using that element. Alternately, a target may increase healing from any single power by 2. You may place this effect on two targets."
 			}
 		],
-		"I Recommend\u2026 Upgrade": [
+		"I Recommend Upgrade": [
 			{
 				"useType": "R",
 				"effect": "When using I Recommend\u2026, each target also receives 10 Temporary HP."
@@ -1450,7 +1450,7 @@ const skillsData = {
 		]
 	},
 	"Terrain Mastery": {
-		"Salamander\u2019s Fire": [
+		"Salamanders Fire": [
 			{
 				"useType": "R",
 				"effect": "Call Blast 5 Fire.",
@@ -1464,7 +1464,7 @@ const skillsData = {
 				"deliveryType": "P&C"
 			}
 		],
-		"Salamander\u2019s Fire Upgrade (Final)": [
+		"Salamanders Fire Upgrade (Final)": [
 			{
 				"useType": "E",
 				"effect": "Drop, toss, or roll a specially-marked object (must be throwing safe). During this Encounter, if you are within 30 feet of your object, you may call a Hold to have enemies within Blast range of your object take 25 Bypass. This power may not be combined with Mass Confusion from Phasing."
@@ -1798,13 +1798,13 @@ const skillsData = {
 				"effect": "You learn another two rare languages. You may buy this upgrade more than once."
 			}
 		],
-		"Lock\u0002picking": [
+		"Lockpicking": [
 			{
 				"useType": "S",
 				"effect": "Negate 1 level of Security on mundane locks. If you would gain this power twice, it stacks."
 			}
 		],
-		"Lock\u0002picking Upgrade": [
+		"Lockpicking Upgrade": [
 			{
 				"useType": "S",
 				"effect": "Receive another level of Lockpicking. You may buy this Upgrade more than once."
