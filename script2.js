@@ -134,12 +134,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const container = document.getElementById('bonusSkillSelectContainer');
         container.innerHTML = '';
 
-        for (let i = 0; i < numberOfDropdowns; i++) {
-            const newSelect = document.createElement('select');
-            //newSelect.className = 'skillSelect';
-            newSelect.id = 'bonusSkillSelect' + i;
-            container.appendChild(newSelect);
-        }
+		for (let i = 0; i < numberOfDropdowns; i++) {
+			const newSelect = document.createElement('select');
+			newSelect.className = 'skillSelect'; // Add the class to ensure it's recognized by updateSkillOptions
+			newSelect.id = 'bonusSkillSelect' + i;
+			container.appendChild(newSelect);
+		}
 
         // Assuming updateSkillOptions function exists
         if (typeof updateSkillOptions === 'function') {
